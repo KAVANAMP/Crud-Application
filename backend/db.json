@@ -1,0 +1,14 @@
+{
+  "products": [
+    {
+      "id": "1806d753-08b6-4193-94bb-57b047e3a9e8",
+      "name": "television",
+      "price": "5000"
+    },
+    {
+      "id": "5fb2247c-4b39-4e56-a3cc-c664ebeb187f",
+      "name": "Samsung Galaxy S23 Ultra",
+      "price": "120"
+    }
+  ]
+}

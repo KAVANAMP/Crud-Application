@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Animated Product List with Sparkles</title>
+  <style>
+    /* ===== Full-page background with bubbles ===== */
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 30px;
+      background: url('https://webandcrafts.com/_next/image?url=https%3A%2F%2Fadmin.wac.co%2Fuploads%2FWhat_is_E_commerce_and_What_are_its_Applications_2_d2eb0d4402.jpg&w=4500&q=90') no-repeat center center fixed;
+      background-size: cover;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* ===== Bubble styling ===== */
+    .bubble {
+      position: absolute;
+      bottom: -100px;
+      border-radius: 50%;
+      opacity: 0.6;
+      animation: floatUp linear infinite;
+      background: rgba(255, 255, 255, 0.3);
+      pointer-events: none;
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(0) scale(0.5); opacity: 0.5; }
+      50% { opacity: 0.8; }
+      100% { transform: translateY(-1200px) scale(1); opacity: 0; }
+    }
+
+    /* ===== Container ===== */
+    .container {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 25px 30px;
+      border-radius: 15px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+      width: 100%;
+      max-width: 500px;
+      animation: fadeIn 1s ease forwards;
+      position: relative;
+      z-index: 10;
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(-20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 20px;
+      font-size: 2rem;
+      animation: titlePulse 2s infinite;
+    }
+
+    @keyframes titlePulse {
+      0%, 100% { color: #333; }
+      50% { color: #f6d365; }
+    }
+
+    /* ===== Form ===== */
+    form {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    form input {
+      flex: 1 1 150px;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    form input:focus {
+      outline: none;
+      box-shadow: 0 0 8px #f6d365;
+      transform: scale(1.03);
+    }
+
+    form button {
+      padding: 10px 15px;
+      background: linear-gradient(135deg, #f6d365, #fda085);
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    form button:hover {
+      transform: scale(1.1);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+
+    /* ===== Product List ===== */
+    #product-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    #product-list li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 15px;
+      margin: 10px 0;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #ffecd2, #fcb69f);
+      color: #333;
+      font-weight: bold;
+      transition: transform 0.3s, box-shadow 0.3s, background 0.5s;
+      opacity: 0;
+      animation: itemFadeIn 0.8s forwards;
+    }
+
+    #product-list li:nth-child(even) {
+      background: linear-gradient(135deg, #c2e59c, #64b3f4);
+    }
+
+    @keyframes itemFadeIn {
+      0% { opacity: 0; transform: translateX(-30px); }
+      100% { opacity: 1; transform: translateX(0); }
+    }
+
+    #product-list li:hover {
+      transform: translateY(-5px) scale(1.02);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    }
+
+    #product-list li button {
+      background: linear-gradient(135deg, #f6d365, #fda085);
+      border: none;
+      border-radius: 5px;
+      padding: 5px 10px;
+      cursor: pointer;
+      font-weight: bold;
+      margin-left: 5px;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.3s;
+    }
+
+    #product-list li button:hover {
+      transform: scale(1.15);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+
+    /* ===== Sparkle Effect ===== */
+    .sparkle {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: white;
+      border-radius: 50%;
+      pointer-events: none;
+      opacity: 0.8;
+      animation: sparkleAnim 0.6s ease-out forwards;
+      box-shadow: 0 0 4px 2px rgba(255,255,255,0.8);
+    }
+
+    @keyframes sparkleAnim {
+      0% { transform: translate(0,0) scale(0.5); opacity: 1; }
+      100% { transform: translate(var(--x), var(--y)) scale(1); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <!-- ===== Floating Bubbles ===== -->
+  <script>
+    for(let i = 0; i < 30; i++) {
+      const bubble = document.createElement('div');
+      bubble.classList.add('bubble');
+      const size = Math.random() * 40 + 20; // 20-60px
+      bubble.style.width = `${size}px`;
+      bubble.style.height = `${size}px`;
+      bubble.style.left = `${Math.random() * 100}%`;
+      bubble.style.animationDuration = `${5 + Math.random() * 15}s`;
+      bubble.style.animationDelay = `${Math.random() * 10}s`;
+      document.body.appendChild(bubble);
+    }
+  </script>
+
+  <div class="container">
+  <h1>Product List</h1>
+  <form id="product-form">
+    <input type="text" id="name" placeholder="Product Name" required>
+    <input type="number" id="price" placeholder="Price in ₹" required>
+    <button type="submit" class="sparkle-btn">Add Product</button>
+  </form>
+  <ul id="product-list"></ul>
+</div>
+
+  <script>
+    const form = document.getElementById('product-form');
+    const productList = document.getElementById('product-list');
+
+    // ===== Add Product =====
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const price = document.getElementById('price').value.trim();
+      if (!name || !price) return;
+
+      const li = document.createElement('li');
+      const text = document.createElement('span');
+      text.textContent = `${name} - ₹${price}`;
+
+      const buttonContainer = document.createElement('span');
+
+      const editBtn = document.createElement('button');
+      editBtn.textContent = 'Edit';
+      editBtn.classList.add('sparkle-btn');
+      editBtn.addEventListener('click', () => {
+        const newName = prompt('Enter new product name', name);
+        const newPrice = prompt('Enter new product price', price);
+        if (newName) text.textContent = `${newName} - ₹${newPrice}`;
+      });
+
+      const deleteBtn = document.createElement('button');
+      deleteBtn.textContent = 'Delete';
+      deleteBtn.classList.add('sparkle-btn');
+      deleteBtn.addEventListener('click', () => li.remove());
+
+      buttonContainer.appendChild(editBtn);
+      buttonContainer.appendChild(deleteBtn);
+      li.appendChild(text);
+      li.appendChild(buttonContainer);
+      productList.appendChild(li);
+
+      li.style.animationDelay = `${productList.children.length * 0.1}s`;
+      form.reset();
+    });
+
+    // ===== Sparkle Effect on Hover =====
+    function createSparkles(e) {
+      const btn = e.currentTarget;
+      for(let i = 0; i < 8; i++) {
+        const sparkle = document.createElement('div');
+        sparkle.classList.add('sparkle');
+        const x = (Math.random() - 0.5) * 80;
+        const y = (Math.random() - 0.5) * 80;
+        sparkle.style.setProperty('--x', `${x}px`);
+        sparkle.style.setProperty('--y', `${y}px`);
+        sparkle.style.left = `${e.offsetX}px`;
+        sparkle.style.top = `${e.offsetY}px`;
+        btn.appendChild(sparkle);
+        setTimeout(() => sparkle.remove(), 600);
+      }
+    }
+
+    document.querySelectorAll('.sparkle-btn').forEach(btn => {
+      btn.addEventListener('mouseenter', createSparkles);
+    });
+
+    // Dynamically attach sparkle effect for future buttons
+    const observer = new MutationObserver(() => {
+      document.querySelectorAll('.sparkle-btn').forEach(btn => {
+        if(!btn.dataset.sparkleAttached){
+          btn.addEventListener('mouseenter', createSparkles);
+          btn.dataset.sparkleAttached = true;
+        }
+      });
+    });
+    observer.observe(productList, {childList: true, subtree: true});
+  </script>
+</body>
+</html>
