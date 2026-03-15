@@ -83,6 +83,3 @@ node server.js
 
 Open `index.html` in your browser.
 
-
-Kavana P Acharya
-Computer Science and Engineering Student
